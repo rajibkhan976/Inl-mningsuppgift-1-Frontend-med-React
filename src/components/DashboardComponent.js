@@ -34,12 +34,18 @@ class DashboardComponent extends Component {
   }
 
   render () {
+    let listOfStudents = this.state.students;
     console.log(this.state.students);
     return (
       <div className="container">
         <div className="row">
           <div className="col-12">
             <h2>Bong-bong</h2>
+            <ul className="list-group">
+              {listOfStudents.map((studentData, index) => {
+                return <li className="list-group-item" key={index}>{studentData.students.name}</li>;
+              })}
+            </ul>
           </div>
         </div>
       </div>
