@@ -39,11 +39,17 @@ class DashboardComponent extends Component {
     return (
       <div className="container">
         <div className="row">
-          <div className="col-12">
+          <div className="col-6">
             <h2>Bong-bong</h2>
             <ul className="list-group">
               {listOfStudents.map((studentData, index) => {
-                return <li className="list-group-item" key={index}>{studentData.students.name}</li>;
+                return <div key={index}>
+                        <li className="list-group-item">
+                          <h5>Student id: {studentData.students._id}</h5>
+                          <p>Name: {studentData.students.name}</p>
+                          <p>Email: {studentData.students.email}</p>
+                        </li>
+                       </div>;
               })}
             </ul>
           </div>
