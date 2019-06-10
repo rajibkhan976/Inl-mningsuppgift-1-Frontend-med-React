@@ -11,6 +11,10 @@ class DashboardComponent extends Component {
   }
 
   componentDidMount () {
+    this.getStudents();
+  }
+
+  getStudents = (e) => {
     fetch("http://localhost:5000/students", {
       method: 'GET',
       mode: 'cors',
@@ -43,7 +47,8 @@ class DashboardComponent extends Component {
         'Content-Type': 'application/json'
       }
     }).then(() => {
-      alert('Student deleted successfully');
+      alert('Student deleted successfully!');
+      this.getStudents();
     }).catch((err) => {
       console.log(err);
     })
@@ -67,7 +72,6 @@ class DashboardComponent extends Component {
 
   handleZipcode = (e) => {
     this.studentZipcode = e.target.value;
-    alert(this.studentZipcode);
   }
 
   handleCity = (e) => {
@@ -75,7 +79,35 @@ class DashboardComponent extends Component {
   }
 
   addStudent = (e) => {
-    alert(this.studentCity);
+    fetch("http://localhost:5000/students", {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Access-Control-Allow-Origin': 'http://localhost:3000/',
+        'Access-Control-Allow-Credentials': 'true',
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        students: {
+          _id: this.studentId,
+          email: this.studentEmail,
+          name: this.studentName,
+          address: {
+            road: this.studentRoad,
+            zipcode: this.studentZipcode,
+            city: this.studentCity
+          }
+        }
+      })
+    })
+    .then((res) => {
+      alert('Student added successfully:)');
+      this.getStudents();
+    })
+    .catch((err) => {
+      alert(err);
+    })
   }
 
   render () {
@@ -119,31 +151,31 @@ class DashboardComponent extends Component {
               <div className="jumbotron">
                 <h3>Add student</h3>
                 <div className="form-group">
-                  <label className="float-left" for="studentId">Student id</label>
+                  <label className="float-left">Student id</label>
                   <input id="studentId" className="form-control" type="text" onChange= {this.handleId}/>
                 </div>
                 <div className="form-group">
-                  <label className="float-left" for="studentName">Name</label>
+                  <label className="float-left">Name</label>
                   <input id="studentName" className="form-control" type="text" onChange= {this.handleName}/>
                 </div>
                 <div className="form-group">
-                  <label className="float-left" for="studentEmail">Email</label>
+                  <label className="float-left">Email</label>
                   <input id="studentEmail" className="form-control" type="email" onChange= {this.handleEmail}/>
                 </div>
                 <h5>Address</h5>
                 <div className="form-group">
-                  <label className="float-left" for="studentRoad">Road</label>
+                  <label className="float-left">Road</label>
                   <input id="studentRoad" className="form-control" type="email" onChange= {this.handleRoad}/>
                 </div>
                 <div className="form-group">
-                  <label className="float-left" for="studentZipcode">Zip code</label>
+                  <label className="float-left">Zip code</label>
                   <input id="studentZipcode" className="form-control" type="email" onChange= {this.handleZipcode}/>
                 </div>
                 <div className="form-group">
-                  <label className="float-left" for="studentCity">City</label>
+                  <label className="float-left">City</label>
                   <input id="studentCity" className="form-control" type="email" onChange= {this.handleCity}/>
                 </div> <br/>
-                <button type="button" class="btn btn-success" onClick={this.addStudent}>Add student</button>
+                <button type="button" className="btn btn-success" onClick={this.addStudent}>Add student</button>
              </div>
            </div>
          </div>
